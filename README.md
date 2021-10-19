@@ -34,40 +34,9 @@ secure, and production-grade cloud infrastructure.
 
 ## Module Features
 
-<!-- info: please adjust the following text -->
-
 This module implements the following terraform resources
 
-- `google_resource`
-- `google_something_else`
-
-and supports additional features of the following modules:
-
-<!-- markdown-link-check-disable -->
-- [mineiros-io/something/google](https://github.com/mineiros-io/terraform-google-something)
-<!-- markdown-link-check-enable -->
-
-<!--
-These are some of our custom features:
-
-- **Default Security Settings**:
-  secure by default by setting security to `true`, additional security can be added by setting some feature to `enabled`
-
-- **Standard Module Features**:
-  Cool Feature of the main resource, tags
-
-- **Extended Module Features**:
-  Awesome Extended Feature of an additional related resource,
-  and another Cool Feature
-
-- **Additional Features**:
-  a Cool Feature that is not actually a resource but a cool set up from us
-
-- _Features not yet implemented_:
-  Standard Features missing,
-  Extended Features planned,
-  Additional Features planned
--->
+- `google_artifact_registry_repository`
 
 ## Getting Started
 
@@ -76,6 +45,8 @@ Most basic usage just setting required arguments:
 ```hcl
 module "terraform-google-artifact-registry-repository" {
   source = "github.com/mineiros-io/terraform-google-artifact-registry-repository?ref=v0.1.0"
+
+  repository_id = "my-repository"
 }
 ```
 
@@ -107,58 +78,38 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 #### Main Resource Configuration
 
-<!-- Example of a required variable:
+- **`repository_id`**: **_(Required `string`)_**
 
-- **`name`**: **_(Required `string`)_**
+  The last part of the repository name, for example: `repo1`.
 
-  The name of the resource.
+- **`format`**: _(Optional `string`)_
 
-  Default is `"name"`.
+  The format of packages that are stored in the repository. You can only create alpha formats if you are a member of the alpha user group. Possible values are `DOCKER`, `MAVEN`, `NPM`, `PYTHON`, `APT` (alpha), `YUM` (alpha).
+  Default is `DOCKER`.
 
--->
+- **`location`**: _(Optional `string`)_
 
-<!-- Example of an optional variable:
+  The name of the location this repository is located in.
 
-- **`name`**: _(Optional `string`)_
+- **`description`**: _(Optional `string`)_
 
-  The name of the resource.
+  The user-provided description of the repository.
 
-  Default is `"name"`.
+- **`labels`**: _(Optional `map(string)`)_
 
--->
+  Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes.
 
-<!-- Example of an object:
-     - We use inline documentation to describe complex objects or lists/maps of complex objects.
-     - Please indent each level with 2 spaces so the documentation is rendered in a readable way.
+- **`kms_key_name`**: _(Optional `string`)_
 
-- **`user`**: _(Optional `object(user)`)_
+  The Cloud KMS resource name of the customer managed encryption key that’s used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created.
 
-  A user object.
+- **`project`**: _(Optional `string`)_
 
-  Example
+  The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 
-  ```hcl
-  user = {
-    name        = "marius"
-    description = "The guy from Berlin."
-  }
-  ```
+- **`timeouts`**: _(Optional `map(string)`)_
 
-  Default is `{}`.
-
-  A/Each `user` object can have the following fields:
-
-  - **`name`**: **_(Required `string`)_**
-
-    The Name of the user.
-
-  - **`description`**: _(Optional `decription`)_
-
-    A description describing the user in more detail.
-
-    Default is `""`.
-
--->
+  How long certain operations are allowed to take before being considered to have failed.
 
 #### Extended Resource Configuration
 
@@ -170,6 +121,10 @@ The following attributes are exported in the outputs of the module:
 
   Whether this module is enabled.
 
+- **`repository`**
+
+  All `google_artifact_registry_repository` resource attributes.
+
 <!-- all outputs in outputs.tf-->
 
 ## External Documentation
@@ -177,11 +132,11 @@ The following attributes are exported in the outputs of the module:
 ### Google Documentation
 <!-- markdown-link-check-disable -->
 
-  - https://link-to-docs
+  - https://cloud.google.com/artifact-registry
 
 ### Terraform Google Provider Documentation:
 
-  - https://www.terraform.io/docs/providers/google/r/something.html
+  - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository
 <!-- markdown-link-check-disable -->
 
 ## Module Versioning
@@ -241,7 +196,7 @@ Copyright &copy; 2020-2021 [Mineiros GmbH][homepage]
 
 <!-- markdown-link-check-disable -->
 
-[badge-build]: https://github.com/mineiros-io/terraform-google-premium-modules/workflows/Tests/badge.svg
+[badge-build]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/workflows/Tests/badge.svg
 
 <!-- markdown-link-check-enable -->
 
@@ -252,8 +207,8 @@ Copyright &copy; 2020-2021 [Mineiros GmbH][homepage]
 
 <!-- markdown-link-check-disable -->
 
-[build-status]: https://github.com/mineiros-io/terraform-google-premium-modules/modules/terraform-google-artifact-registry-repository/actions
-[releases-github]: https://github.com/mineiros-io/terraform-google-premium-modules/modules/terraform-google-artifact-registry-repository/releases
+[build-status]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/actions
+[releases-github]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/releases
 
 <!-- markdown-link-check-enable -->
 
@@ -268,12 +223,12 @@ Copyright &copy; 2020-2021 [Mineiros GmbH][homepage]
 
 <!-- markdown-link-check-disable -->
 
-[variables.tf]: https://github.com/mineiros-io/terraform-google-premium-modules/blob/modules/terraform-google-artifact-registry-repository/main/variables.tf
-[examples/]: https://github.com/mineiros-io/terraform-google-premium-modules/blob/modules/terraform-google-artifact-registry-repository/main/examples
-[issues]: https://github.com/mineiros-io/terraform-google-premium-modules/issues
-[license]: https://github.com/mineiros-io/terraform-google-premium-modules/blob/main/LICENSE
-[makefile]: https://github.com/mineiros-io/terraform-google-premium-modules/blob/main/Makefile
-[pull requests]: https://github.com/mineiros-io/terraform-google-premium-modules/pulls
-[contribution guidelines]: https://github.com/mineiros-io/terraform-google-premium-modules/blob/main/CONTRIBUTING.md
+[variables.tf]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/variables.tf
+[examples/]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/examples
+[issues]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/issues
+[license]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/LICENSE
+[makefile]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/Makefile
+[pull requests]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/pulls
+[contribution guidelines]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/CONTRIBUTING.md
 
 <!-- markdown-link-check-enable -->
