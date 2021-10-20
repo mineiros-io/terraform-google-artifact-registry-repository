@@ -113,6 +113,101 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 #### Extended Resource Configuration
 
+- **`iam`**: _(Optional `list(iam)`)_
+
+  A list of IAM access.
+
+  Example
+
+  ```hcl
+  iam = [{
+    role = "roles/secretmanager.admin"
+    members = ["user:member@example.com"]
+    authoritative = false
+  }]
+  ```
+
+  Each `iam` object accepts the following fields:
+
+  - **`members`**: **_(Required `list(string)`)_**
+
+    Identities that will be granted the privilege in role. Each entry can have one of the following values:
+    - `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account.
+    - `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account.
+    - `user:{emailid}`: An email address that represents a specific Google account. For example, alice@gmail.com or joe@example.com.
+    - `serviceAccount:{emailid}`: An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com.
+    - `group:{emailid}`: An email address that represents a Google group. For example, admins@example.com.
+    - `domain:{domain}`: A G Suite domain (primary, instead of alias) name that represents all the users of that domain. For example, google.com or example.com.
+
+    Default is `[]`.
+
+  - **`role`**: **_(Required `string`)_**
+
+    The role that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
+
+  - **`authoritative`**: _(Optional `bool`)_
+
+    Whether to exclusively set (authoritative mode) or add (non-authoritative/additive mode) members to the role.
+
+    Default is `true`.
+
+- **`policy_bindings`**: _(Optional `list(policy_bindings)`)_
+
+  A list of IAM policy bindings.
+
+  Example
+
+  ```hcl
+  policy_bindings = [{
+    role    = "roles/secretmanager.admin"
+    members = ["user:member@example.com"]
+    condition = {
+      title       = "expires_after_2021_12_31"
+      description = "Expiring at midnight of 2021-12-31"
+      expression  = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+    }
+  }]
+  ```
+
+  Each `policy_bindings` object accepts the following fields:
+
+  - **`role`**: **_(Required `string`)_**
+
+    The role that should be applied.
+
+  - **`members`**: **_(Required `string`)_**
+
+    Identities that will be granted the privilege in `role`.
+
+    Default is `var.members`.
+
+  - **`condition`**: _(Optional `object(condition)`)_
+
+    An IAM Condition for a given binding.
+
+    Example
+
+    ```hcl
+    condition = {
+      expression = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+      title      = "expires_after_2021_12_31"
+    }
+    ```
+
+    A `condition` object accepts the following fields:
+
+    - **`expression`**: **_(Required `string`)_**
+
+      Textual representation of an expression in Common Expression Language syntax.
+
+    - **`title`**: **_(Required `string`)_**
+
+      A title for the expression, i.e. a short string describing its purpose.
+
+    - **`description`**: _(Optional `string`)_
+
+      An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+
 ## Module Attributes Reference
 
 The following attributes are exported in the outputs of the module:
