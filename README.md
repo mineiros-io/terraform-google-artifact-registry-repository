@@ -1,19 +1,22 @@
-[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>][homepage]
+[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>](https://mineiros.io/?ref=terraform-google-artifact-registry-repository)
 
-[![Terraform Version][badge-terraform]][releases-terraform]
-[![Google Provider Version][badge-tf-gcp]][releases-google-provider]
-[![Join Slack][badge-slack]][slack]
+[![Build Status](https://github.com/mineiros-io/terraform-google-artifact-registry-repository/workflows/Tests/badge.svg)](https://github.com/mineiros-io/terraform-google-artifact-registry-repository/actions)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/mineiros-io/terraform-google-artifact-registry-repository.svg?label=latest&sort=semver)](https://github.com/mineiros-io/terraform-google-artifact-registry-repository/releases)
+[![Terraform Version](https://img.shields.io/badge/Terraform-1.x-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
+[![Google Provider Version](https://img.shields.io/badge/google-4-1A73E8.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-google/releases)
+[![Join Slack](https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack)](https://mineiros.io/slack)
 
 # terraform-google-artifact-registry-repository
 
 A [Terraform] module for [Google Cloud Platform (GCP)][gcp].
 
 **_This module supports Terraform version 1
-and is compatible with the Terraform Google Provider version 3._**
+and is compatible with the Terraform Google Provider version 4._**
 
 This module is part of our Infrastructure as Code (IaC) framework
 that enables our users and customers to easily deploy and manage reusable,
 secure, and production-grade cloud infrastructure.
+
 
 - [Module Features](#module-features)
 - [Getting Started](#getting-started)
@@ -22,8 +25,10 @@ secure, and production-grade cloud infrastructure.
     - [Module Configuration](#module-configuration)
     - [Main Resource Configuration](#main-resource-configuration)
     - [Extended Resource Configuration](#extended-resource-configuration)
-- [Module Attributes Reference](#module-attributes-reference)
+- [Module Outputs](#module-outputs)
 - [External Documentation](#external-documentation)
+  - [Google Documentation](#google-documentation)
+  - [Terraform Google Provider Documentation:](#terraform-google-provider-documentation)
 - [Module Versioning](#module-versioning)
   - [Backwards compatibility in `0.0.z` and `0.y.z` version](#backwards-compatibility-in-00z-and-0yz-version)
 - [About Mineiros](#about-mineiros)
@@ -62,13 +67,13 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 #### Module Configuration
 
-- **`module_enabled`**: _(Optional `bool`)_
+- [**`module_enabled`**](#var-module_enabled): *(Optional `bool`)*<a name="var-module_enabled"></a>
 
   Specifies whether resources in the module will be created.
 
   Default is `true`.
 
-- **`module_depends_on`**: _(Optional `list(dependencies)`)_
+- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependencies)`)*<a name="var-module_depends_on"></a>
 
   A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
 
@@ -82,47 +87,47 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 #### Main Resource Configuration
 
-- **`repository_id`**: **_(Required `string`)_**
+- [**`repository_id`**](#var-repository_id): *(**Required** `string`)*<a name="var-repository_id"></a>
 
   The last part of the repository name, for example: `repo1`.
 
-- **`format`**: _(Optional `string`)_
+- [**`format`**](#var-format): *(Optional `string`)*<a name="var-format"></a>
 
   The format of packages that are stored in the repository. You can only create alpha formats if you are a member of the alpha user group. Possible values are `DOCKER`, `MAVEN`, `NPM`, `PYTHON`, `APT` (alpha), `YUM` (alpha).
-  
-  Default is `DOCKER`.
 
-- **`location`**: _(Optional `string`)_
+  Default is `"DOCKER"`.
+
+- [**`location`**](#var-location): *(Optional `string`)*<a name="var-location"></a>
 
   The name of the location this repository is located in.
 
-- **`description`**: _(Optional `string`)_
+- [**`description`**](#var-description): *(Optional `string`)*<a name="var-description"></a>
 
   The user-provided description of the repository.
 
-- **`labels`**: _(Optional `map(string)`)_
+- [**`labels`**](#var-labels): *(Optional `map(string)`)*<a name="var-labels"></a>
 
   Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes.
 
-- **`kms_key_name`**: _(Optional `string`)_
+- [**`kms_key_name`**](#var-kms_key_name): *(Optional `string`)*<a name="var-kms_key_name"></a>
 
-  The Cloud KMS resource name of the customer managed encryption key that’s used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created.
+  The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created.
 
-- **`project`**: _(Optional `string`)_
+- [**`project`**](#var-project): *(Optional `string`)*<a name="var-project"></a>
 
   The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 
-- **`timeouts`**: _(Optional `map(string)`)_
+- [**`timeouts`**](#var-timeouts): *(Optional `map(string)`)*<a name="var-timeouts"></a>
 
   How long certain operations are allowed to take before being considered to have failed.
 
 #### Extended Resource Configuration
 
-- **`iam`**: _(Optional `list(iam)`)_
+- [**`iam`**](#var-iam): *(Optional `list(iam)`)*<a name="var-iam"></a>
 
   A list of IAM access.
 
-  Example
+  Example:
 
   ```hcl
   iam = [{
@@ -132,9 +137,9 @@ See [variables.tf] and [examples/] for details and use-cases.
   }]
   ```
 
-  Each `iam` object accepts the following fields:
+  The object accepts the following attributes:
 
-  - **`members`**: _(Optional `set(string)`)_
+  - [**`members`**](#attr-members-iam): *(Optional `set(string)`)*<a name="attr-members-iam"></a>
 
     Identities that will be granted the privilege in role. Each entry can have one of the following values:
     - `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account.
@@ -149,21 +154,21 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     Default is `[]`.
 
-  - **`role`**: _(Optional `string`)_
+  - [**`role`**](#attr-role-iam): *(Optional `string`)*<a name="attr-role-iam"></a>
 
     The role that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
 
-  - **`authoritative`**: _(Optional `bool`)_
+  - [**`authoritative`**](#attr-authoritative-iam): *(Optional `bool`)*<a name="attr-authoritative-iam"></a>
 
     Whether to exclusively set (authoritative mode) or add (non-authoritative/additive mode) members to the role.
 
     Default is `true`.
 
-- **`policy_bindings`**: _(Optional `list(policy_bindings)`)_
+- [**`policy_bindings`**](#var-policy_bindings): *(Optional `list(policy_bindings)`)*<a name="var-policy_bindings"></a>
 
   A list of IAM policy bindings.
 
-  Example
+  Example:
 
   ```hcl
   policy_bindings = [{
@@ -177,23 +182,23 @@ See [variables.tf] and [examples/] for details and use-cases.
   }]
   ```
 
-  Each `policy_bindings` object accepts the following fields:
+  The object accepts the following attributes:
 
-  - **`role`**: **_(Required `string`)_**
+  - [**`role`**](#attr-role-policy_bindings): *(**Required** `string`)*<a name="attr-role-policy_bindings"></a>
 
     The role that should be applied.
 
-  - **`members`**: _(Optional `set(string)`)_
+  - [**`members`**](#attr-members-policy_bindings): *(Optional `set(string)`)*<a name="attr-members-policy_bindings"></a>
 
     Identities that will be granted the privilege in `role`.
 
     Default is `var.members`.
 
-  - **`condition`**: _(Optional `object(condition)`)_
+  - [**`condition`**](#attr-condition-policy_bindings): *(Optional `object(condition)`)*<a name="attr-condition-policy_bindings"></a>
 
     An IAM Condition for a given binding.
 
-    Example
+    Example:
 
     ```hcl
     condition = {
@@ -202,21 +207,21 @@ See [variables.tf] and [examples/] for details and use-cases.
     }
     ```
 
-    A `condition` object accepts the following fields:
+    The object accepts the following attributes:
 
-    - **`expression`**: **_(Required `string`)_**
+    - [**`expression`**](#attr-expression-condition-policy_bindings): *(**Required** `string`)*<a name="attr-expression-condition-policy_bindings"></a>
 
       Textual representation of an expression in Common Expression Language syntax.
 
-    - **`title`**: **_(Required `string`)_**
+    - [**`title`**](#attr-title-condition-policy_bindings): *(**Required** `string`)*<a name="attr-title-condition-policy_bindings"></a>
 
       A title for the expression, i.e. a short string describing its purpose.
 
-    - **`description`**: _(Optional `string`)_
+    - [**`description`**](#attr-description-condition-policy_bindings): *(Optional `string`)*<a name="attr-description-condition-policy_bindings"></a>
 
       An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
 
-## Module Attributes Reference
+## Module Outputs
 
 The following attributes are exported in the outputs of the module:
 
@@ -237,14 +242,12 @@ The following attributes are exported in the outputs of the module:
 ## External Documentation
 
 ### Google Documentation
-<!-- markdown-link-check-disable -->
 
-  - https://cloud.google.com/artifact-registry
+- https://cloud.google.com/artifact-registry
 
 ### Terraform Google Provider Documentation:
 
-  - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository
-<!-- markdown-link-check-disable -->
+- https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository
 
 ## Module Versioning
 
@@ -294,31 +297,20 @@ Run `make help` to see details on each available target.
 This module is licensed under the Apache License Version 2.0, January 2004.
 Please see [LICENSE] for full details.
 
-Copyright &copy; 2020-2021 [Mineiros GmbH][homepage]
+Copyright &copy; 2020-2022 [Mineiros GmbH][homepage]
+
 
 <!-- References -->
 
 [homepage]: https://mineiros.io/?ref=terraform-google-artifact-registry-repository
 [hello@mineiros.io]: mailto:hello@mineiros.io
-
-<!-- markdown-link-check-disable -->
-
 [badge-build]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/workflows/Tests/badge.svg
-
-<!-- markdown-link-check-enable -->
-
 [badge-semver]: https://img.shields.io/github/v/tag/mineiros-io/terraform-google-artifact-registry-repository.svg?label=latest&sort=semver
 [badge-license]: https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg
 [badge-terraform]: https://img.shields.io/badge/Terraform-1.x-623CE4.svg?logo=terraform
 [badge-slack]: https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack
-
-<!-- markdown-link-check-disable -->
-
 [build-status]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/actions
 [releases-github]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/releases
-
-<!-- markdown-link-check-enable -->
-
 [releases-terraform]: https://github.com/hashicorp/terraform/releases
 [badge-tf-gcp]: https://img.shields.io/badge/google-3.x-1A73E8.svg?logo=terraform
 [releases-google-provider]: https://github.com/terraform-providers/terraform-provider-google/releases
@@ -327,9 +319,6 @@ Copyright &copy; 2020-2021 [Mineiros GmbH][homepage]
 [terraform]: https://www.terraform.io
 [gcp]: https://cloud.google.com/
 [semantic versioning (semver)]: https://semver.org/
-
-<!-- markdown-link-check-disable -->
-
 [variables.tf]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/variables.tf
 [examples/]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/examples
 [issues]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/issues
@@ -337,5 +326,3 @@ Copyright &copy; 2020-2021 [Mineiros GmbH][homepage]
 [makefile]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/Makefile
 [pull requests]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/pulls
 [contribution guidelines]: https://github.com/mineiros-io/terraform-google-artifact-registry-repository/blob/main/CONTRIBUTING.md
-
-<!-- markdown-link-check-enable -->
