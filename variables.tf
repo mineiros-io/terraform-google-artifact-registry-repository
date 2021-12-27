@@ -48,12 +48,6 @@ variable "project" {
   default     = null
 }
 
-variable "timeouts" {
-  description = "(Optional) How long certain operations are allowed to take before being considered to have failed."
-  type        = any
-  default     = {}
-}
-
 ## IAM
 
 variable "iam" {
@@ -77,6 +71,19 @@ variable "module_enabled" {
   type        = bool
   description = "(Optional) Whether to create resources within the module or not. Default is 'true'."
   default     = true
+}
+
+variable "module_timeouts" {
+  description = "(Optional) How long certain operations (per resource type) are allowed to take before being considered to have failed."
+  type        = any
+  # type = object({
+  #   google_artifact_registry_repository = optional(object({
+  #     create = optional(string)
+  #     update = optional(string)
+  #     delete = optional(string)
+  #   }))
+  # })
+  default = {}
 }
 
 variable "module_depends_on" {
