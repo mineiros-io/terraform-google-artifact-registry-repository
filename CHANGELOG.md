@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Refactored `timeouts` block to match template standard
+
+### Removed
+
+- Removed default values in timeouts 
+
 ## [0.0.2]
 
 ### Added

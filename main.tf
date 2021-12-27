@@ -13,8 +13,8 @@ resource "google_artifact_registry_repository" "repository" {
   project       = var.project
 
   timeouts {
-    create = try(var.timeouts.create, "4m")
-    update = try(var.timeouts.update, "4m")
-    delete = try(var.timeouts.delete, "4m")
+    create = try(var.module_timeouts.google_artifact_registry_repository.create, null)
+    update = try(var.module_timeouts.google_artifact_registry_repository.update, null)
+    delete = try(var.module_timeouts.google_artifact_registry_repository.delete, null)
   }
 }
