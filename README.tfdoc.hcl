@@ -95,6 +95,24 @@ section {
           END
         }
 
+        variable "module_timeouts" {
+          type           = any
+          readme_type    = "map(timeouts)"
+          description    = <<-END
+            A map of timeout objects that is keyed by Terraform resource name defining timeouts for `create`, `update` and `delete` Terraform operations.
+            Supported resource names are: `google_artifact_registry_repository`.
+          END
+          default        = {}
+          readme_example = <<-END
+            module_timeouts = {
+              google_artifact_registry_repository = {
+                create = "4m"
+                update = "4m"
+                delete = "4m"
+              }
+            }
+          END
+
         variable "module_depends_on" {
           type           = any
           readme_type    = "list(dependencies)"
@@ -160,13 +178,6 @@ section {
           type        = string
           description = <<-END
             The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
-          END
-        }
-
-        variable "timeouts" {
-          type        = map(string)
-          description = <<-END
-            How long certain operations are allowed to take before being considered to have failed.
           END
         }
       }
