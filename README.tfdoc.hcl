@@ -112,6 +112,7 @@ section {
               }
             }
           END
+        }
 
         variable "module_depends_on" {
           type           = any
