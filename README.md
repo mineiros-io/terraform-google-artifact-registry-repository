@@ -73,6 +73,25 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `true`.
 
+- [**`module_timeouts`**](#var-module_timeouts): *(Optional `map(timeouts)`)*<a name="var-module_timeouts"></a>
+
+  A map of timeout objects that is keyed by Terraform resource name defining timeouts for `create`, `update` and `delete` Terraform operations.
+Supported resource names are: `google_artifact_registry_repository`.
+
+  Default is `{}`.
+
+  Example:
+
+  ```hcl
+  module_timeouts = {
+    google_artifact_registry_repository = {
+      create = "4m"
+      update = "4m"
+      delete = "4m"
+    }
+  }
+  ```
+
 - [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependencies)`)*<a name="var-module_depends_on"></a>
 
   A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
@@ -116,10 +135,6 @@ See [variables.tf] and [examples/] for details and use-cases.
 - [**`project`**](#var-project): *(Optional `string`)*<a name="var-project"></a>
 
   The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
-
-- [**`timeouts`**](#var-timeouts): *(Optional `map(string)`)*<a name="var-timeouts"></a>
-
-  How long certain operations are allowed to take before being considered to have failed.
 
 #### Extended Resource Configuration
 
