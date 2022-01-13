@@ -17,6 +17,20 @@ This module is part of our Infrastructure as Code (IaC) framework
 that enables our users and customers to easily deploy and manage reusable,
 secure, and production-grade cloud infrastructure.
 
+As the evolution of [Google Container Registry (GCR)](https://cloud.google.com/container-registry),
+[Artifact Registry](https://cloud.google.com/artifact-registry) is a single place for your organization to manage
+container images and language packages (such as Maven and npm).
+
+It is fully integrated with Google Cloud’s tooling and runtimes and comes with support for native artifact protocols.
+This makes it simple to integrate with your CI/CD tooling to set up automated pipelines.
+
+Contrary to GCR, Artifact Registry doesn’t have the concept of a single registry that you can use to push multiple
+images or packages to. It rather allows you to
+[create repositories with a single purpose](https://cloud.google.com/artifact-registry/docs/manage-repos) (single-responsibility),
+e.g. a repository that stores Docker images, a repository that stores npm images, etc.
+
+For getting an overview of the available formats, please see https://cloud.google.com/artifact-registry/docs/supported-formats.
+
 
 - [Module Features](#module-features)
 - [Getting Started](#getting-started)
@@ -39,7 +53,7 @@ secure, and production-grade cloud infrastructure.
 
 ## Module Features
 
-This module implements the following terraform resources
+This module implements the following Terraform resources
 
 - `google_artifact_registry_repository`
 
@@ -73,12 +87,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `true`.
 
-- [**`module_timeouts`**](#var-module_timeouts): *(Optional `map(timeouts)`)*<a name="var-module_timeouts"></a>
+- [**`module_timeouts`**](#var-module_timeouts): *(Optional `map(timeout)`)*<a name="var-module_timeouts"></a>
 
-  A map of timeout objects that is keyed by Terraform resource name defining timeouts for `create`, `update` and `delete` Terraform operations.
-Supported resource names are: `google_artifact_registry_repository`.
-
-  Default is `{}`.
+  A map of timeout objects that is keyed by Terraform resource name
+  defining timeouts for `create`, `update` and `delete` Terraform operations.
+  Supported resource names are: `google_artifact_registry_repository`.
 
   Example:
 
@@ -92,15 +105,32 @@ Supported resource names are: `google_artifact_registry_repository`.
   }
   ```
 
-- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependencies)`)*<a name="var-module_depends_on"></a>
+  Each `timeout` object in the map accepts the following attributes:
 
-  A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+  - [**`create`**](#attr-module_timeouts-create): *(Optional `string`)*<a name="attr-module_timeouts-create"></a>
+
+    Timeout for create operations.
+
+  - [**`update`**](#attr-module_timeouts-update): *(Optional `string`)*<a name="attr-module_timeouts-update"></a>
+
+    Timeout for update operations.
+
+  - [**`delete`**](#attr-module_timeouts-delete): *(Optional `string`)*<a name="attr-module_timeouts-delete"></a>
+
+    Timeout for delete operations.
+
+- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependency)`)*<a name="var-module_depends_on"></a>
+
+  A list of dependencies.
+  Any object can be _assigned_ to this list to define a hidden external dependency.
+
+  Default is `[]`.
 
   Example:
 
   ```hcl
   module_depends_on = [
-    google_network.network
+    null_resource.name
   ]
   ```
 
@@ -142,6 +172,8 @@ Supported resource names are: `google_artifact_registry_repository`.
 
   A list of IAM access.
 
+  Default is `[]`.
+
   Example:
 
   ```hcl
@@ -152,9 +184,9 @@ Supported resource names are: `google_artifact_registry_repository`.
   }]
   ```
 
-  The object accepts the following attributes:
+  Each `iam` object in the list accepts the following attributes:
 
-  - [**`members`**](#attr-members-iam): *(Optional `set(string)`)*<a name="attr-members-iam"></a>
+  - [**`members`**](#attr-iam-members): *(Optional `set(string)`)*<a name="attr-iam-members"></a>
 
     Identities that will be granted the privilege in role. Each entry can have one of the following values:
     - `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account.
@@ -169,11 +201,11 @@ Supported resource names are: `google_artifact_registry_repository`.
 
     Default is `[]`.
 
-  - [**`role`**](#attr-role-iam): *(Optional `string`)*<a name="attr-role-iam"></a>
+  - [**`role`**](#attr-iam-role): *(Optional `string`)*<a name="attr-iam-role"></a>
 
     The role that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
 
-  - [**`authoritative`**](#attr-authoritative-iam): *(Optional `bool`)*<a name="attr-authoritative-iam"></a>
+  - [**`authoritative`**](#attr-iam-authoritative): *(Optional `bool`)*<a name="attr-iam-authoritative"></a>
 
     Whether to exclusively set (authoritative mode) or add (non-authoritative/additive mode) members to the role.
 
@@ -197,19 +229,19 @@ Supported resource names are: `google_artifact_registry_repository`.
   }]
   ```
 
-  The object accepts the following attributes:
+  Each `policy_bindings` object in the list accepts the following attributes:
 
-  - [**`role`**](#attr-role-policy_bindings): *(**Required** `string`)*<a name="attr-role-policy_bindings"></a>
+  - [**`role`**](#attr-policy_bindings-role): *(**Required** `string`)*<a name="attr-policy_bindings-role"></a>
 
     The role that should be applied.
 
-  - [**`members`**](#attr-members-policy_bindings): *(Optional `set(string)`)*<a name="attr-members-policy_bindings"></a>
+  - [**`members`**](#attr-policy_bindings-members): *(Optional `set(string)`)*<a name="attr-policy_bindings-members"></a>
 
     Identities that will be granted the privilege in `role`.
 
     Default is `var.members`.
 
-  - [**`condition`**](#attr-condition-policy_bindings): *(Optional `object(condition)`)*<a name="attr-condition-policy_bindings"></a>
+  - [**`condition`**](#attr-policy_bindings-condition): *(Optional `object(condition)`)*<a name="attr-policy_bindings-condition"></a>
 
     An IAM Condition for a given binding.
 
@@ -222,17 +254,17 @@ Supported resource names are: `google_artifact_registry_repository`.
     }
     ```
 
-    The object accepts the following attributes:
+    The `condition` object accepts the following attributes:
 
-    - [**`expression`**](#attr-expression-condition-policy_bindings): *(**Required** `string`)*<a name="attr-expression-condition-policy_bindings"></a>
+    - [**`expression`**](#attr-policy_bindings-condition-expression): *(**Required** `string`)*<a name="attr-policy_bindings-condition-expression"></a>
 
       Textual representation of an expression in Common Expression Language syntax.
 
-    - [**`title`**](#attr-title-condition-policy_bindings): *(**Required** `string`)*<a name="attr-title-condition-policy_bindings"></a>
+    - [**`title`**](#attr-policy_bindings-condition-title): *(**Required** `string`)*<a name="attr-policy_bindings-condition-title"></a>
 
       A title for the expression, i.e. a short string describing its purpose.
 
-    - [**`description`**](#attr-description-condition-policy_bindings): *(Optional `string`)*<a name="attr-description-condition-policy_bindings"></a>
+    - [**`description`**](#attr-policy_bindings-condition-description): *(Optional `string`)*<a name="attr-policy_bindings-condition-description"></a>
 
       An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
 

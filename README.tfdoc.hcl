@@ -45,12 +45,26 @@ section {
     This module is part of our Infrastructure as Code (IaC) framework
     that enables our users and customers to easily deploy and manage reusable,
     secure, and production-grade cloud infrastructure.
+
+    As the evolution of [Google Container Registry (GCR)](https://cloud.google.com/container-registry),
+    [Artifact Registry](https://cloud.google.com/artifact-registry) is a single place for your organization to manage
+    container images and language packages (such as Maven and npm).
+
+    It is fully integrated with Google Cloud’s tooling and runtimes and comes with support for native artifact protocols.
+    This makes it simple to integrate with your CI/CD tooling to set up automated pipelines.
+
+    Contrary to GCR, Artifact Registry doesn’t have the concept of a single registry that you can use to push multiple
+    images or packages to. It rather allows you to
+    [create repositories with a single purpose](https://cloud.google.com/artifact-registry/docs/manage-repos) (single-responsibility),
+    e.g. a repository that stores Docker images, a repository that stores npm images, etc.
+
+    For getting an overview of the available formats, please see https://cloud.google.com/artifact-registry/docs/supported-formats.
   END
 
   section {
     title   = "Module Features"
     content = <<-END
-      This module implements the following terraform resources
+      This module implements the following Terraform resources
 
       - `google_artifact_registry_repository`
 
@@ -96,13 +110,12 @@ section {
         }
 
         variable "module_timeouts" {
-          type           = any
-          readme_type    = "map(timeouts)"
+          type           = map(timeout)
           description    = <<-END
-            A map of timeout objects that is keyed by Terraform resource name defining timeouts for `create`, `update` and `delete` Terraform operations.
+            A map of timeout objects that is keyed by Terraform resource name
+            defining timeouts for `create`, `update` and `delete` Terraform operations.
             Supported resource names are: `google_artifact_registry_repository`.
           END
-          default        = {}
           readme_example = <<-END
             module_timeouts = {
               google_artifact_registry_repository = {
@@ -112,17 +125,39 @@ section {
               }
             }
           END
+
+          attribute "create" {
+            type        = string
+            description = <<-END
+              Timeout for create operations.
+            END
+          }
+
+          attribute "update" {
+            type        = string
+            description = <<-END
+              Timeout for update operations.
+            END
+          }
+
+          attribute "delete" {
+            type        = string
+            description = <<-END
+              Timeout for delete operations.
+            END
+          }
         }
 
         variable "module_depends_on" {
-          type           = any
-          readme_type    = "list(dependencies)"
-          description    = <<-END
-            A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+          type        = list(dependency)
+          description = <<-END
+            A list of dependencies.
+            Any object can be _assigned_ to this list to define a hidden external dependency.
           END
+          default        = []
           readme_example = <<-END
             module_depends_on = [
-              google_network.network
+              null_resource.name
             ]
           END
         }
@@ -187,8 +222,8 @@ section {
         title = "Extended Resource Configuration"
 
         variable "iam" {
-          type           = any
-          readme_type    = "list(iam)"
+          type           = list(iam)
+          default        = []
           description    = <<-END
             A list of IAM access.
           END
@@ -234,8 +269,7 @@ section {
         }
 
         variable "policy_bindings" {
-          type           = any
-          readme_type    = "list(policy_bindings)"
+          type           = list(policy_bindings)
           description    = <<-END
             A list of IAM policy bindings.
           END
@@ -268,8 +302,7 @@ section {
           }
 
           attribute "condition" {
-            type           = any
-            readme_type    = "object(condition)"
+            type           = object(condition) 
             description    = <<-END
               An IAM Condition for a given binding.
             END
