@@ -81,7 +81,7 @@ section {
 
       ```hcl
       module "terraform-google-artifact-registry-repository" {
-        source = "github.com/mineiros-io/terraform-google-artifact-registry-repository?ref=v0.1.0"
+        source = "github.com/mineiros-io/terraform-google-artifact-registry-repository?ref=v0.0.3"
 
         repository_id = "my-repository"
       }
@@ -174,18 +174,19 @@ section {
           END
         }
 
+        variable "location" {
+          required    = true
+          type        = string
+          description = <<-END
+            The name of the location this repository is located in.
+          END
+        }
+
         variable "format" {
           type        = string
           default     = "DOCKER"
           description = <<-END
             The format of packages that are stored in the repository. You can only create alpha formats if you are a member of the alpha user group. Possible values are `DOCKER`, `MAVEN`, `NPM`, `PYTHON`, `APT` (alpha), `YUM` (alpha).
-          END
-        }
-
-        variable "location" {
-          type        = string
-          description = <<-END
-            The name of the location this repository is located in.
           END
         }
 
