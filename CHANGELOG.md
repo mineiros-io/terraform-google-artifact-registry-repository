@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Test additional resources in unit tests also
 
+### Fixed
+
+- Fixed iam integration when `module_enabled = false`
+
 ## [0.0.3]
 
 ### Added
