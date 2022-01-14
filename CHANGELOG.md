@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Refactored `timeouts` block to match template standard
 - Upgrade [terraform-google-artifact-registry-repository-iam](https://github.com/mineiros-io/terraform-google-artifact-registry-repository-iam) to `v0.0.3`
+- BREAKING: `var.location` needs to be mandatory.
 
 ### Removed
 

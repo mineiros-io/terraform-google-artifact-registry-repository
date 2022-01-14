@@ -67,7 +67,7 @@ Most basic usage just setting required arguments:
 
 ```hcl
 module "terraform-google-artifact-registry-repository" {
-  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository?ref=v0.1.0"
+  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository?ref=v0.0.3"
 
   repository_id = "my-repository"
 }
@@ -140,15 +140,15 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   The last part of the repository name, for example: `repo1`.
 
+- [**`location`**](#var-location): *(**Required** `string`)*<a name="var-location"></a>
+
+  The name of the location this repository is located in.
+
 - [**`format`**](#var-format): *(Optional `string`)*<a name="var-format"></a>
 
   The format of packages that are stored in the repository. You can only create alpha formats if you are a member of the alpha user group. Possible values are `DOCKER`, `MAVEN`, `NPM`, `PYTHON`, `APT` (alpha), `YUM` (alpha).
 
   Default is `"DOCKER"`.
-
-- [**`location`**](#var-location): *(Optional `string`)*<a name="var-location"></a>
-
-  The name of the location this repository is located in.
 
 - [**`description`**](#var-description): *(Optional `string`)*<a name="var-description"></a>
 
