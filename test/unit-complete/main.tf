@@ -37,8 +37,17 @@ module "test" {
   # add all required arguments
   repository_id = "unit-complete"
   format        = "NPM"
+  location      = var.gcp_region
+
   # add all optional arguments that create additional resources
-  location    = var.gcp_region
+  iam = [
+    {
+      role    = "roles/artifactregistry.writer"
+      members = ["serviceAccount:github-terraform-tests@terraform-service-catalog.iam.gserviceaccount.com"]
+    }
+  ]
+
+  # add most/all other optional arguments
   description = "An artifact registry created by an automated unit-test in https://github.com/mineiros-io/terraform-google-artifact-registry-repository."
 
   labels = {
@@ -46,8 +55,6 @@ module "test" {
   }
 
   project = var.gcp_project
-
-  # add most/all other optional arguments
 
   module_timeouts = {
     google_artifact_registry_repository = {

@@ -35,10 +35,16 @@ module "test" {
   module_enabled = false
 
   # add all required arguments
-
-  # add only required arguments and no optional arguments
   repository_id = "unit-disabled"
   location      = var.gcp_region
+
+  # add all optional arguments that create additional resources
+  iam = [
+    {
+      role    = "roles/iam.serviceAccountUser"
+      members = ["serviceAccount:noneexiting"]
+    }
+  ]
 }
 
 # outputs generate non-idempotent terraform plans so we disable them for now unless we need them.

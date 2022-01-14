@@ -16,9 +16,9 @@ module "iam" {
   module_enabled    = var.module_enabled
   module_depends_on = var.module_depends_on
 
-  repository      = google_artifact_registry_repository.repository[0].name
-  location        = google_artifact_registry_repository.repository[0].location
-  project         = google_artifact_registry_repository.repository[0].project
+  repository      = try(google_artifact_registry_repository.repository[0].name, null)
+  location        = try(google_artifact_registry_repository.repository[0].location, null)
+  project         = try(google_artifact_registry_repository.repository[0].project, null)
   role            = try(each.value.role, null)
   members         = try(each.value.members, null)
   authoritative   = try(each.value.authoritative, true)
