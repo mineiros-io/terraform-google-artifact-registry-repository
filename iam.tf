@@ -9,7 +9,7 @@ locals {
 }
 
 module "iam" {
-  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository-iam.git?ref=v0.0.2"
+  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository-iam.git?ref=v0.0.3"
 
   for_each = var.policy_bindings != null ? local.policy_bindings : local.iam_map
 
