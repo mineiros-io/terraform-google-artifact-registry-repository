@@ -363,7 +363,7 @@ section {
     }
 
     output "iam" {
-      type        = object(iam)
+      type        = list(iam)
       description = <<-END
         The `iam` resource objects that define the access to the resources.
       END

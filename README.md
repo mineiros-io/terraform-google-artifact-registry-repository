@@ -280,7 +280,7 @@ The following attributes are exported in the outputs of the module:
 
   All `google_artifact_registry_repository` resource attributes.
 
-- [**`iam`**](#output-iam): *(`object(iam)`)*<a name="output-iam"></a>
+- [**`iam`**](#output-iam): *(`list(iam)`)*<a name="output-iam"></a>
 
   The `iam` resource objects that define the access to the resources.
 
