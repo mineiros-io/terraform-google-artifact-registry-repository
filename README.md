@@ -272,19 +272,17 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 The following attributes are exported in the outputs of the module:
 
-- **`module_enabled`**
+- [**`module_enabled`**](#output-module_enabled): *(`bool`)*<a name="output-module_enabled"></a>
 
   Whether this module is enabled.
 
-- **`repository`**
+- [**`repository`**](#output-repository): *(`object(repository)`)*<a name="output-repository"></a>
 
   All `google_artifact_registry_repository` resource attributes.
 
-- **`iam`**
+- [**`iam`**](#output-iam): *(`object(iam)`)*<a name="output-iam"></a>
 
   The `iam` resource objects that define the access to the resources.
-
-<!-- all outputs in outputs.tf-->
 
 ## External Documentation
 
