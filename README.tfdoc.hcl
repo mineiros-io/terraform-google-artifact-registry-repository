@@ -149,8 +149,8 @@ section {
         }
 
         variable "module_depends_on" {
-          type        = list(dependency)
-          description = <<-END
+          type           = list(dependency)
+          description    = <<-END
             A list of dependencies.
             Any object can be _assigned_ to this list to define a hidden external dependency.
           END
@@ -303,7 +303,7 @@ section {
           }
 
           attribute "condition" {
-            type           = object(condition) 
+            type           = object(condition)
             description    = <<-END
               An IAM Condition for a given binding.
             END
@@ -346,21 +346,28 @@ section {
     title   = "Module Outputs"
     content = <<-END
       The following attributes are exported in the outputs of the module:
-
-      - **`module_enabled`**
-
-        Whether this module is enabled.
-
-      - **`repository`**
-
-        All `google_artifact_registry_repository` resource attributes.
-
-      - **`iam`**
-
-        The `iam` resource objects that define the access to the resources.
-
-      <!-- all outputs in outputs.tf-->
     END
+
+    output "module_enabled" {
+      type        = bool
+      description = <<-END
+        Whether this module is enabled.
+      END
+    }
+
+    output "repository" {
+      type        = object(repository)
+      description = <<-END
+        All `google_artifact_registry_repository` resource attributes.
+      END
+    }
+
+    output "iam" {
+      type        = list(iam)
+      description = <<-END
+        The `iam` resource objects that define the access to the resources.
+      END
+    }
   }
 
   section {
