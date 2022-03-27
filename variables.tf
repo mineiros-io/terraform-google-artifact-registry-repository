@@ -52,10 +52,18 @@ variable "project" {
 
 variable "iam" {
   description = "(Optional) A list of IAM access."
-  type        = any
-  default     = []
+  type = list(
+    object({
+      role    = string
+      members = list(string)
+      }
+    )
+  )
+  default = [{
+    role    = ""
+    members = []
+  }]
 }
-
 variable "policy_bindings" {
   description = "(Optional) A list of IAM policy bindings."
   type        = any
