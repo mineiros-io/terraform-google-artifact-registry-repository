@@ -34,8 +34,8 @@ variable "description" {
 
 variable "labels" {
   description = "(Optional) Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes."
-  type        = any
-  default     = null
+  type        = map(string)
+  default     = {}
 }
 
 variable "kms_key_name" {
