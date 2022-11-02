@@ -8,15 +8,17 @@ variable "repository_id" {
   type        = string
 }
 
-variable "location" {
-  description = "(Required) The name of the location this repository is located in."
-  type        = string
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL VARIABLES
 # These variables have defaults, but may be overridden.
 # ---------------------------------------------------------------------------------------------------------------------
+
+variable "location" {
+  description = "(Optional) The name of the location this repository is located in. If it is not provided, the provider location is used."
+  type        = string
+  default     = null
+}
+
 
 variable "format" {
   description = "(Optional) The format of packages that are stored in the repository. You can only create alpha formats if you are a member of the alpha user group. Possible values are `DOCKER`, `MAVEN`, `NPM`, `PYTHON`, `APT` (alpha), `YUM` (alpha)"

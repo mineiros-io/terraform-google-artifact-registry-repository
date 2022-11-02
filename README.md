@@ -140,9 +140,9 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   The last part of the repository name, for example: `repo1`.
 
-- [**`location`**](#var-location): *(**Required** `string`)*<a name="var-location"></a>
+- [**`location`**](#var-location): *(Optional `string`)*<a name="var-location"></a>
 
-  The name of the location this repository is located in.
+  The name of the location this repository is located in. If it is not provided, the provider location is used.
 
 - [**`format`**](#var-format): *(Optional `string`)*<a name="var-format"></a>
 

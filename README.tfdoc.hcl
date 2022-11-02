@@ -175,10 +175,9 @@ section {
         }
 
         variable "location" {
-          required    = true
           type        = string
           description = <<-END
-            The name of the location this repository is located in.
+            The name of the location this repository is located in. If it is not provided, the provider location is used.
           END
         }
 
