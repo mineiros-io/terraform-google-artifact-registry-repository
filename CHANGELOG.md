@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Remove Terraform `tomap` function use from `iam` module locals.
+- Change `var.location` back to be optional.
+- Migrated tests to new testsuite.
+- Change type of `var.labels` to `map(string)`.
 
 ## [0.0.4]
 
