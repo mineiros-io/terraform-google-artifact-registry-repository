@@ -347,13 +347,6 @@ section {
       The following attributes are exported in the outputs of the module:
     END
 
-    output "module_enabled" {
-      type        = bool
-      description = <<-END
-        Whether this module is enabled.
-      END
-    }
-
     output "repository" {
       type        = object(repository)
       description = <<-END
