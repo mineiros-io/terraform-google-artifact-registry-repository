@@ -178,7 +178,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   ```hcl
   iam = [{
-    role = "roles/secretmanager.admin"
+    role = "roles/artifactregistry.writer"
     members = ["user:member@example.com"]
     authoritative = false
   }]
@@ -219,7 +219,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   ```hcl
   policy_bindings = [{
-    role    = "roles/secretmanager.admin"
+    role    = "roles/artifactregistry.writer"
     members = ["user:member@example.com"]
     condition = {
       title       = "expires_after_2021_12_31"
