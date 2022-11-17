@@ -229,7 +229,7 @@ section {
           END
           readme_example = <<-END
             iam = [{
-              role = "roles/secretmanager.admin"
+              role = "roles/artifactregistry.writer"
               members = ["user:member@example.com"]
               authoritative = false
             }]
@@ -275,7 +275,7 @@ section {
           END
           readme_example = <<-END
             policy_bindings = [{
-              role    = "roles/secretmanager.admin"
+              role    = "roles/artifactregistry.writer"
               members = ["user:member@example.com"]
               condition = {
                 title       = "expires_after_2021_12_31"
