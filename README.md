@@ -198,6 +198,7 @@ See [variables.tf] and [examples/] for details and use-cases.
     - `projectOwner:projectid`: Owners of the given project. For example, `projectOwner:my-example-project`
     - `projectEditor:projectid`: Editors of the given project. For example, `projectEditor:my-example-project`
     - `projectViewer:projectid`: Viewers of the given project. For example, `projectViewer:my-example-project`
+    - `computed:{identifier}`: An existing key from `var.computed_members_map`.
 
     Default is `[]`.
 
@@ -205,11 +206,34 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     The role that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
 
+  - [**`roles`**](#attr-iam-roles): *(Optional `list(string)`)*<a name="attr-iam-roles"></a>
+
+    The set of roles that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
+
   - [**`authoritative`**](#attr-iam-authoritative): *(Optional `bool`)*<a name="attr-iam-authoritative"></a>
 
     Whether to exclusively set (authoritative mode) or add (non-authoritative/additive mode) members to the role.
 
     Default is `true`.
+
+  - [**`condition`**](#attr-iam-condition): *(Optional `object(condition)`)*<a name="attr-iam-condition"></a>
+
+    An IAM Condition for a given binding.
+
+    Example:
+
+    ```hcl
+    condition = {
+      expression = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+      title      = "expires_after_2021_12_31"
+    }
+    ```
+
+- [**`computed_members_map`**](#var-computed_members_map): *(Optional `map(string)`)*<a name="var-computed_members_map"></a>
+
+  A map of members to replace in `members` of various IAM settings to handle terraform computed values.
+
+  Default is `{}`.
 
 - [**`policy_bindings`**](#var-policy_bindings): *(Optional `list(policy_bindings)`)*<a name="var-policy_bindings"></a>
 
@@ -272,10 +296,6 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 The following attributes are exported in the outputs of the module:
 
-- [**`module_enabled`**](#output-module_enabled): *(`bool`)*<a name="output-module_enabled"></a>
-
-  Whether this module is enabled.
-
 - [**`repository`**](#output-repository): *(`object(repository)`)*<a name="output-repository"></a>
 
   All `google_artifact_registry_repository` resource attributes.
@@ -283,6 +303,10 @@ The following attributes are exported in the outputs of the module:
 - [**`iam`**](#output-iam): *(`list(iam)`)*<a name="output-iam"></a>
 
   The `iam` resource objects that define the access to the resources.
+
+- [**`policy_binding`**](#output-policy_binding): *(`object(policy_binding)`)*<a name="output-policy_binding"></a>
+
+  All attributes of the created policy_bindings `mineiros-io/terraform-google-artifact-registry-repository-iam/google` module when using policy bindings.
 
 ## External Documentation
 
@@ -293,6 +317,7 @@ The following attributes are exported in the outputs of the module:
 ### Terraform Google Provider Documentation:
 
 - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository
+- https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository_iam
 
 ## Module Versioning
 

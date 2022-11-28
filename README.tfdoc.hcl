@@ -249,6 +249,7 @@ section {
               - `projectOwner:projectid`: Owners of the given project. For example, `projectOwner:my-example-project`
               - `projectEditor:projectid`: Editors of the given project. For example, `projectEditor:my-example-project`
               - `projectViewer:projectid`: Viewers of the given project. For example, `projectViewer:my-example-project`
+              - `computed:{identifier}`: An existing key from `var.computed_members_map`.
             END
           }
 
@@ -259,6 +260,13 @@ section {
             END
           }
 
+          attribute "roles" {
+            type        = list(string)
+            description = <<-END
+              The set of roles that should be applied. Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
+            END
+          }
+
           attribute "authoritative" {
             type        = bool
             default     = true
@@ -266,6 +274,27 @@ section {
               Whether to exclusively set (authoritative mode) or add (non-authoritative/additive mode) members to the role.
             END
           }
+
+          attribute "condition" {
+            type           = object(condition)
+            description    = <<-END
+              An IAM Condition for a given binding.
+            END
+            readme_example = <<-END
+              condition = {
+                expression = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+                title      = "expires_after_2021_12_31"
+              }
+            END
+          }
+        }
+
+        variable "computed_members_map" {
+          type        = map(string)
+          description = <<-END
+            A map of members to replace in `members` of various IAM settings to handle terraform computed values.
+          END
+          default     = {}
         }
 
         variable "policy_bindings" {
@@ -347,13 +376,6 @@ section {
       The following attributes are exported in the outputs of the module:
     END
 
-    output "module_enabled" {
-      type        = bool
-      description = <<-END
-        Whether this module is enabled.
-      END
-    }
-
     output "repository" {
       type        = object(repository)
       description = <<-END
@@ -365,6 +387,13 @@ section {
       type        = list(iam)
       description = <<-END
         The `iam` resource objects that define the access to the resources.
+      END
+    }
+
+    output "policy_binding" {
+      type        = object(policy_binding)
+      description = <<-END
+        All attributes of the created policy_bindings `mineiros-io/terraform-google-artifact-registry-repository-iam/google` module when using policy bindings.
       END
     }
   }
@@ -383,6 +412,8 @@ section {
       title   = "Terraform Google Provider Documentation:"
       content = <<-END
         - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository
+        - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/artifact_registry_repository_iam
+
       END
     }
   }
