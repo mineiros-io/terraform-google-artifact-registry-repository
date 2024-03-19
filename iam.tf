@@ -16,7 +16,7 @@ locals {
 
 
 module "iam" {
-  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository-iam.git?ref=v0.1.0"
+  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository-iam.git?ref=v0.2.0"
 
   for_each = [local.iam_map, {}][var.policy_bindings == null ? 0 : 1]
 
@@ -34,7 +34,7 @@ module "iam" {
 }
 
 module "policy_bindings" {
-  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository-iam.git?ref=v0.1.0"
+  source = "github.com/mineiros-io/terraform-google-artifact-registry-repository-iam.git?ref=v0.2.0"
 
   count = var.policy_bindings != null ? 1 : 0
 
