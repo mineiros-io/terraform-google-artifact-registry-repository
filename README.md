@@ -11,7 +11,7 @@
 A [Terraform] module for [Google Cloud Platform (GCP)][gcp].
 
 **_This module supports Terraform version 1
-and is compatible with the Terraform Google Provider version 4._**
+and is compatible with the Terraform Google Provider version 5.14._**
 
 This module is part of our Infrastructure as Code (IaC) framework
 that enables our users and customers to easily deploy and manage reusable,
@@ -165,6 +165,72 @@ See [variables.tf] and [examples/] for details and use-cases.
 - [**`project`**](#var-project): *(Optional `string`)*<a name="var-project"></a>
 
   The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
+
+- [**`cleanup_policy_dry_run`**](#var-cleanup_policy_dry_run): *(Optional `bool`)*<a name="var-cleanup_policy_dry_run"></a>
+
+  If true, the cleanup pipeline is prevented from deleting versions in this repository.
+
+- [**`cleanup_policies`**](#var-cleanup_policies): *(Optional `any`)*<a name="var-cleanup_policies"></a>
+
+  Cleanup policies for this repository.
+
+  The object accepts the following attributes:
+
+  - [**`id`**](#attr-cleanup_policies-id): *(Optional `string`)*<a name="attr-cleanup_policies-id"></a>
+
+    (Required) The identifier for this object. Format specified above.
+
+  - [**`action`**](#attr-cleanup_policies-action): *(Optional `string`)*<a name="attr-cleanup_policies-action"></a>
+
+    (Optional) Policy action. Possible values are: DELETE, KEEP.
+
+  - [**`condition`**](#attr-cleanup_policies-condition): *(Optional `number`)*<a name="attr-cleanup_policies-condition"></a>
+
+    (Optional) Policy condition for matching versions.
+
+    The object accepts the following attributes:
+
+    - [**`tag_state`**](#attr-cleanup_policies-condition-tag_state): *(Optional `string`)*<a name="attr-cleanup_policies-condition-tag_state"></a>
+
+      (Optional) Match versions by tag status.
+      Possible values are: TAGGED, UNTAGGED, ANY.
+
+      Default is `"ANY"`.
+
+    - [**`tag_prefixes`**](#attr-cleanup_policies-condition-tag_prefixes): *(Optional `string`)*<a name="attr-cleanup_policies-condition-tag_prefixes"></a>
+
+      (Optional) Match versions by tag prefix. Applied on any prefix match.
+
+    - [**`version_name_prefixes`**](#attr-cleanup_policies-condition-version_name_prefixes): *(Optional `string`)*<a name="attr-cleanup_policies-condition-version_name_prefixes"></a>
+
+      (Optional) Match versions by version name prefix. Applied on any prefix match.
+
+    - [**`package_name_prefixes`**](#attr-cleanup_policies-condition-package_name_prefixes): *(Optional `string`)*<a name="attr-cleanup_policies-condition-package_name_prefixes"></a>
+
+      (Optional) Match versions by package prefix. Applied on any prefix match.
+
+    - [**`older_than`**](#attr-cleanup_policies-condition-older_than): *(Optional `string`)*<a name="attr-cleanup_policies-condition-older_than"></a>
+
+      (Optional) Match versions older than a duration.
+
+    - [**`newer_than`**](#attr-cleanup_policies-condition-newer_than): *(Optional `string`)*<a name="attr-cleanup_policies-condition-newer_than"></a>
+
+      (Optional) Match versions newer than a duration.
+
+  - [**`most_recent_versions`**](#attr-cleanup_policies-most_recent_versions): *(Optional `number`)*<a name="attr-cleanup_policies-most_recent_versions"></a>
+
+    (Optional) Policy condition for retaining a minimum number of versions. 
+    May only be specified with a Keep action.
+
+    The object accepts the following attributes:
+
+    - [**`package_name_prefixes`**](#attr-cleanup_policies-most_recent_versions-package_name_prefixes): *(Optional `string`)*<a name="attr-cleanup_policies-most_recent_versions-package_name_prefixes"></a>
+
+      (Optional) Match versions by package prefix. Applied on any prefix match.
+
+    - [**`keep_count`**](#attr-cleanup_policies-most_recent_versions-keep_count): *(Optional `string`)*<a name="attr-cleanup_policies-most_recent_versions-keep_count"></a>
+
+      (Optional) Minimum number of versions to keep.
 
 #### Extended Resource Configuration
 

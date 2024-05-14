@@ -1,5 +1,5 @@
 module "test-sa" {
-  source = "github.com/mineiros-io/terraform-google-service-account?ref=v0.0.10"
+  source = "github.com/mineiros-io/terraform-google-service-account?ref=v0.2.1"
 
   account_id = "service-account-id-${local.random_suffix}"
 }
@@ -193,5 +193,51 @@ module "test2" {
   }
 
   module_depends_on = ["nothing"]
-
 }
+
+module "cleanup_policies" {
+  source = "../.."
+
+  module_enabled = true
+
+  repository_id = "unit-complete-2-${local.random_suffix}"
+  format        = "NPM"
+  location      = "europe-west3"
+
+  policy_bindings = [
+    {
+      role = "roles/artifactregistry.reader"
+      members = [
+        "user:member@example.com",
+        "computed:myserviceaccount",
+      ]
+    }
+  ]
+
+  description = "An artifact registry created by an automated unit-test in https://github.com/mineiros-io/terraform-google-artifact-registry-repository."
+
+  project = var.gcp_project
+
+  cleanup_policy_dry_run = true
+  cleanup_policies = [
+    {
+      id     = "delete-prerelease"
+      action = "DELETE"
+      condition = {
+        tag_state             = "TAGGED"
+        tag_prefixes          = ["alpha", "v0"]
+        version_name_prefixes = ["prefix1", "prefix2"]
+        package_name_prefixes = ["prefix1", "prefix2"]
+        older_than            = "2592000s"
+        newer_than            = "1d"
+      }
+      most_recent_versions = {
+        package_name_prefixes = ["prefix1", "prefix2"]
+        keep_count            = 1
+      }
+    }
+  ]
+
+  module_depends_on = ["nothing"]
+}
+

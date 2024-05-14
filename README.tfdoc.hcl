@@ -40,7 +40,7 @@ section {
     A [Terraform] module for [Google Cloud Platform (GCP)][gcp].
 
     **_This module supports Terraform version 1
-    and is compatible with the Terraform Google Provider version 4._**
+    and is compatible with the Terraform Google Provider version 5.14._**
 
     This module is part of our Infrastructure as Code (IaC) framework
     that enables our users and customers to easily deploy and manage reusable,
@@ -215,6 +215,107 @@ section {
           description = <<-END
             The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
           END
+        }
+
+        variable "cleanup_policy_dry_run" {
+          type        = bool
+          description = <<-END
+            If true, the cleanup pipeline is prevented from deleting versions in this repository.
+          END
+        }
+
+        variable "cleanup_policies" {
+          type        = any
+          description = <<-END
+            Cleanup policies for this repository.
+          END
+
+          attribute "id" {
+            type        = string
+            description = <<-END
+            (Required) The identifier for this object. Format specified above.
+          END
+          }
+
+          attribute "action" {
+            type        = string
+            description = <<-END
+            (Optional) Policy action. Possible values are: DELETE, KEEP.
+          END
+          }
+
+          attribute "condition" {
+            type        = number
+            description = <<-END
+            (Optional) Policy condition for matching versions.
+          END
+
+            attribute "tag_state" {
+              type        = string
+              default     = "ANY"
+              description = <<-END
+            (Optional) Match versions by tag status.
+            Possible values are: TAGGED, UNTAGGED, ANY.
+          END
+            }
+
+            attribute "tag_prefixes" {
+              type        = string
+              description = <<-END
+            (Optional) Match versions by tag prefix. Applied on any prefix match.
+          END
+            }
+
+            attribute "version_name_prefixes" {
+              type        = string
+              description = <<-END
+            (Optional) Match versions by version name prefix. Applied on any prefix match.
+          END
+            }
+
+            attribute "package_name_prefixes" {
+              type        = string
+              description = <<-END
+            (Optional) Match versions by package prefix. Applied on any prefix match.
+          END
+            }
+
+            attribute "older_than" {
+              type        = string
+              description = <<-END
+            (Optional) Match versions older than a duration.
+          END
+            }
+
+            attribute "newer_than" {
+              type        = string
+              description = <<-END
+            (Optional) Match versions newer than a duration.
+          END
+            }
+          }
+
+          attribute "most_recent_versions" {
+            type        = number
+            description = <<-END
+            (Optional) Policy condition for retaining a minimum number of versions. 
+            May only be specified with a Keep action.
+          END
+
+            attribute "package_name_prefixes" {
+              type        = string
+              description = <<-END
+            (Optional) Match versions by package prefix. Applied on any prefix match.
+          END
+            }
+
+            attribute "keep_count" {
+              type        = string
+              description = <<-END
+            (Optional) Minimum number of versions to keep.
+          END
+            }
+          }
         }
       }
 

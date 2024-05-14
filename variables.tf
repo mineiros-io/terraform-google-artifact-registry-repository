@@ -50,6 +50,18 @@ variable "project" {
   default     = null
 }
 
+variable "cleanup_policy_dry_run" {
+  description = "(Optional) If true, the cleanup pipeline is prevented from deleting versions in this repository."
+  type        = bool
+  default     = false
+}
+
+variable "cleanup_policies" {
+  description = "(Optional) Cleanup policies for this repository."
+  type        = any
+  default     = null
+}
+
 # ------------------------------------------------------------------------------
 # MODULE CONFIGURATION PARAMETERS
 # These variables are used to configure the module.
