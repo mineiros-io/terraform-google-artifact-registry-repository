@@ -11,3 +11,8 @@ repos:
       - id: terraform-validate
         exclude: ^examples|.terraform/
       - id: tflint
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.29.0
+    hooks:
+      - id: yamllint
+        args: ['-s']
