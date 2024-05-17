@@ -57,9 +57,25 @@ variable "cleanup_policy_dry_run" {
 }
 
 variable "cleanup_policies" {
-  description = "(Optional) Cleanup policies for this repository."
-  type        = any
-  default     = null
+  description = "Object containing details about the cleanup policies for an Artifact Registry repository."
+  type = list(object({
+    id     = string
+    action = string
+    condition = optional(object({
+      tag_state             = optional(string)
+      tag_prefixes          = optional(list(string))
+      older_than            = optional(string)
+      newer_than            = optional(string)
+      package_name_prefixes = optional(list(string))
+      version_name_prefixes = optional(list(string))
+    }))
+    most_recent_versions = optional(object({
+      package_name_prefixes = optional(list(string))
+      keep_count            = optional(number)
+    }))
+  }))
+
+  default = null
 }
 
 # ------------------------------------------------------------------------------
