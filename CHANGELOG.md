@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add support for `computed_members_map`
 - Add support for `iam.condition`
+- Add support for federated principals by updated IAM module to 0.3.0
 
 ### Removed
 
