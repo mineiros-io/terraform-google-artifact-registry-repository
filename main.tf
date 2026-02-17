@@ -18,17 +18,25 @@ resource "google_artifact_registry_repository" "repository" {
     content {
       id     = cleanup_policies.value.id
       action = cleanup_policies.value.action
-      condition {
-        tag_state             = cleanup_policies.value.condition.tag_state
-        tag_prefixes          = cleanup_policies.value.condition.tag_prefixes
-        version_name_prefixes = cleanup_policies.value.condition.version_name_prefixes
-        package_name_prefixes = cleanup_policies.value.condition.package_name_prefixes
-        older_than            = cleanup_policies.value.condition.older_than
-        newer_than            = cleanup_policies.value.condition.newer_than
+      dynamic "condition" {
+        for_each = cleanup_policies.value.condition != null ? [""] : []
+
+        content {
+          tag_state             = cleanup_policies.value.condition.tag_state
+          tag_prefixes          = cleanup_policies.value.condition.tag_prefixes
+          version_name_prefixes = cleanup_policies.value.condition.version_name_prefixes
+          package_name_prefixes = cleanup_policies.value.condition.package_name_prefixes
+          older_than            = cleanup_policies.value.condition.older_than
+          newer_than            = cleanup_policies.value.condition.newer_than
+        }
       }
-      most_recent_versions {
-        package_name_prefixes = cleanup_policies.value.most_recent_versions.package_name_prefixes
-        keep_count            = cleanup_policies.value.most_recent_versions.keep_count
+      dynamic "most_recent_versions" {
+        for_each = cleanup_policies.value.most_recent_versions != null ? [""] : []
+
+        content {
+          package_name_prefixes = cleanup_policies.value.most_recent_versions.package_name_prefixes
+          keep_count            = cleanup_policies.value.most_recent_versions.keep_count
+        }
       }
     }
   }
