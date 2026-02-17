@@ -265,6 +265,8 @@ See [variables.tf] and [examples/] for details and use-cases.
     - `projectEditor:projectid`: Editors of the given project. For example, `projectEditor:my-example-project`
     - `projectViewer:projectid`: Viewers of the given project. For example, `projectViewer:my-example-project`
     - `computed:{identifier}`: An existing key from `var.computed_members_map`.
+    - `principal:{identifier}`: A Google principal identifier.
+    - `principalSet:{identifier}`: A Google principal set identifier.
 
     Default is `[]`.
 
